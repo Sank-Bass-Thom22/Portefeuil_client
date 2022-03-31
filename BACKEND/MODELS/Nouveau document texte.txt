@@ -1,0 +1,236 @@
+<?php
+
+require_once('../MODELS/database.php');
+
+class AdminManager extends Connector
+{
+
+public function addAdmin(Admin $admin)
+{
+$db = $this->DBconnect();
+
+$sel = $db->prepare("SELECT adminname FROM ADMINISTRATORS WHERE email = :email");
+$sel->bindValue(':email', $admin->getEmail());
+$sel->execute();
+$rsel = $sel->fetch();
+
+if(!$rsel) {
+$ins = $db->prepare("INSERT INTO ADMINISTRATORS(adminname, email, password, degree, session, state) VALUES(:adminname, :email, :password, :degree, :session, :state)");
+$ins->bindValue(':adminname', $admin->getAdminname()); $ins->bindValue(':email', $admin->getEmail()); $ins->bindValue(':password', password_hash($admin->getPassword(), PASSWORD_BCRYPT));
+$ins->bindValue(':degree', $admin->getDegree()); $ins->bindValue(':session', $admin->getSession()); $ins->bindValue(':state', $admin->getState());
+$ins->execute();
+
+if($ins) {
+return 1;
+} else {
+return 0;
+}
+} else {
+return 2;
+}
+}
+
+public function searchAdmin(Admin $admin)
+{
+$db = $this->DBconnect();
+
+$sel = $db->prepare("SELECT adminname, email, password, degree, session, state FROM ADMINISTRATORS WHERE adminname = :adminname AND email = :email");
+$sel->bindValue(':adminname', $admin->getAdminname()); $sel->bindValue(':email', $admin->getEmail());
+$sel->execute();
+$rsel = $sel->fetch();
+if($rsel) {
+if(password_verify($admin->getPassword(), $rsel['password'])) {
+$result = '1'.$rsel['degree'];
+} else {
+$result = '0'.$rsel['degree'];
+}
+if($rsel['session'] == 'OFF') {
+$result .= '1';
+} else {
+$result .= '0';
+}
+if($rsel['state'] == 'UNLOCK') {
+$result .= '1';
+} else {
+$result .= '0';
+if($result == '1111' || $result == '1211') {
+$upd = $db->prepare("UPDATE ADMINISTRATORS SET session = 'ON' WHERE adminname = :adminname AND email = :email");
+$upd->bindValue(':adminname', $rsel['adminname']); $upd->bindValue(':email', $rsel['email']);
+$upd->execute();
+
+if($upd) {
+$result .= '*';
+return $result;
+} else {
+return $result;;
+}
+}
+} else {
+return 0;
+}
+}
+
+public function updateAdmin(Admin $admin, $email)
+{
+$db = $this->DBconnect();
+
+$sel = $db->prepare("SELECT id_admin, email FROM ADMINISTRATORS WHERE email = :email");
+$sel->bindValue(':email', $admin->getEmail());
+$sel->execute();
+$rsel = $sel->fetch();
+
+if($rsel) {
+if($rsel['email'] == $email) {
+$upd = $db->prepare("UPDATE ADMINISTRATORS SET adminname = :adminname, email = :email, password = :password WHERE email = '".$email."'");
+$upd->bindValue(':adminname', $admin->getAdminname()); $upd->bindValue(':email', $admin->getEmail()); $upd->bindValue(':password', password_hash($admin->getPassword(), PASSWORD_BCRYPT));
+$upd->execute();
+
+if($upd) {
+$id = $rsel['id_admin'];
+$sql = $db->prepare("SELECT adminname, email, password, degree, session, state FROM ADMINISTRATORS WHERE id_admin = :id");
+$sql->bindValue(':id', $id);
+$sql->execute();
+$rsql = $sql->fetch();
+return $rsql;
+} else {
+return 0;
+}
+} else {
+return 2;
+}
+} else {
+$upd = $db->prepare("UPDATE ADMINISTRATORS SET adminname = :adminname, email = :email, password = :password WHERE email = '".$email."'");
+$upd->bindValue(':adminname', $admin->getAdminname()); $upd->bindValue(':email', $admin->getEmail()); $upd->bindValue(':password', password_hash($admin->getPassword(), PASSWORD_BCRYPT));
+$upd->execute();
+
+if($upd) {
+$id = $rsel['id_admin'];
+$sql = $db->prepare("SELECT adminname, email, password, degree, session FROM ADMINISTRATORS WHERE id_admin = :id");
+$sql->bindValue(':id', $id);
+$sql->execute();
+$rsql = $sql->fetch();
+return $rsql;
+} else {
+return 0;
+}
+}
+}
+
+public function AdminList()
+{
+$db = $this->DBconnect();
+
+$sel = $db->prepare("SELECT adminname, email FROM ADMINISTRATORS");
+$sel->execute();
+?>
+
+<?php ob_start(); ?>
+
+<h1>LISTE DES ADMINISTRATEURS</h1><br />
+
+<?php
+while($rsel = $sel->fetch()) {
+$email = $rsel['email'];
+echo "<a href='../CONTROLLERS/retail.php?email=$email'>".$rsel['adminname']."</a><br />";
+}
+?>
+
+
+<div>
+     <form>
+          <a href="../CONTROLLERS/admin.php?value=close"><input type="submit" class="btn btn-danger square-btn-adjust" value="Fermer la liste" /></a>
+     </form>
+</div>
+
+<?php $content = ob_get_clean(); ?>
+
+<?php
+return $content;
+}
+
+public function getAdmin($email)
+{
+$db = $this->DBconnect();
+
+$sel = $db->prepare("SELECT * FROM ADMINISTRATORS WHERE email = :email");
+$sel->bindValue(':email', $email);
+$sel->execute();
+$rsel = $sel->fetch();
+
+return $rsel;
+}
+
+public function modify(Admin $admin, $email)
+{
+$db = $this->DBconnect();
+
+$vsel = $db->prepare("SELECT email FROM ADMINISTRATORS WHERE email <> :email");
+$vsel->bindValue(':email', $email);
+$vsel->execute();
+
+while($rvsel = $vsel->fetch()) {
+if($rvsel['email'] == $admin->getEmail()) {
+return 2;
+}
+}
+$upd = $db->prepare("UPDATE ADMINISTRATORS SET adminname = :adminname, email = :email, password = :password, session = :session WHERE email = '".$email."'");
+$upd->bindValue(':adminname', $admin->getAdminname()); $upd->bindValue(':email', $admin->getEmail()); $upd->bindValue(':password', password_hash($admin->getPassword(), PASSWORD_BCRYPT));
+$upd->bindValue(':session', $admin->getSession());
+$upd->execute();
+
+if($upd) {
+$sel = $db->prepare("SELECT * FROM ADMINISTRATORS WHERE email = '".$email."'");
+$sel->execute();
+$rsel = $sel->fetch();
+return $rsel;
+} else {
+return 0;
+}
+}
+
+public function deleteAdmin($email)
+{
+$db = $this->DBconnect();
+
+$del = $db->prepare("DELETE FROM ADMINISTRATORS WHERE email = :email");
+$del->bindValue(':email', $email);
+$del->execute();
+
+if($del) {
+return 1;
+} else {
+return 0;
+}
+}
+
+public function logoutAdmin($email)
+{
+$db = $this->DBconnect();
+
+$upd = $db->prepare("UPDATE ADMINISTRATORS SET session = 'OFF' WHERE email = :email");
+$upd->bindValue(':email', $email);
+$upd->execute();
+
+if($upd) {
+return 1;
+} else {
+return 0;
+}}
+
+public function restorAdmin($email)
+{
+$db = $this->DBconnect(); $degree = 1;
+
+$upd = $db->prepare("UPDATE ADMINISTRATORS SET session = 'OFF' WHERE email = :email AND degree = :degree");
+$upd->bindValue(':email', $email);
+$upd->bindValue(':degree', $degree);
+$upd->execute();
+
+if($upd) {
+return 1;
+} else {
+return 0;
+}
+}
+
+}

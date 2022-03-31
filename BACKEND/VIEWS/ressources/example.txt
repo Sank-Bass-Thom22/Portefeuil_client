@@ -1,0 +1,250 @@
+1
+<!DOCTYPE html>
+2
+<html lang="fr">
+3
+	<head>
+4
+		<meta charset="UTF-8">
+5
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+6
+		<title>Sous menu Bootstrap</title>
+7
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+8
+        <style>
+9
+            .dropdown-submenu{
+10
+                position: relative;
+11
+            }
+12
+
+13
+            .dropdown-submenu .dropdown-menu{
+14
+                top: 0;
+15
+                left: 100%;
+16
+                margin-top: -1px;
+17
+            }
+18
+        </style>
+19
+	</head>
+20
+	<body>
+21
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+22
+			<a class="navbar-brand" href="#">Navbar</a>
+23
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+24
+				<span class="navbar-toggler-icon"></span>
+25
+			</button>
+26
+
+27
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+28
+				<ul class="navbar-nav mr-auto">
+29
+					<li class="nav-item active">
+30
+						<a class="nav-link" href="#">Home
+31
+							<span class="sr-only">(current)</span>
+32
+						</a>
+33
+					</li>
+34
+					<li class="nav-item">
+35
+						<a class="nav-link" href="#">Link</a>
+36
+					</li>
+37
+					<li class="nav-item dropdown">
+38
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+39
+							Catégories
+40
+						</a>
+41
+						<ul class="dropdown-menu multi" aria-labelledby="navbarDropdown">
+42
+                            <li class="dropdown-submenu">
+43
+							    <a class="dropdown-item dropdown-toggle" href="#">Catégorie 1</a>
+44
+                                <ul class="dropdown-menu">
+45
+                                    <li class="dropdown-item">
+46
+                                        <a href="#">Sous catégorie 1</a>
+47
+                                    </li>
+48
+                                    <li class="dropdown-item">
+49
+                                        <a href="#">Sous catégorie 2</a>
+50
+                                    </li>
+51
+                                    <li class="dropdown-item">
+52
+                                        <a href="#">Sous catégorie 3</a>
+53
+                                    </li>
+54
+                                </ul>
+55
+                            </li>
+56
+                            <li class="dropdown-submenu">
+57
+							    <a class="dropdown-item dropdown-toggle" href="#">Catégorie 2</a>
+58
+                                <ul class="dropdown-menu">
+59
+                                    <li class="dropdown-item">
+60
+                                        <a href="#">Sous catégorie 1</a>
+61
+                                    </li>
+62
+                                </ul>
+63
+							</li>
+64
+                            <li class="dropdown-submenu">
+65
+                                <a class="dropdown-item dropdown-toggle" href="#">Catégorie 3</a>
+66
+                                <ul class="dropdown-menu">
+67
+                                    <li class="dropdown-item">
+68
+                                        <a href="#">Sous catégorie 1</a>
+69
+                                    </li>
+70
+                                    <li class="dropdown-item">
+71
+                                        <a href="#">Sous catégorie 2</a>
+72
+                                    </li>
+73
+                                </ul>
+74
+							</li>
+75
+                            <li class="dropdown-submenu">
+76
+                                <a class="dropdown-item dropdown-toggle" href="#">Catégorie 4</a>
+77
+                                <ul class="dropdown-menu">
+78
+                                    <li class="dropdown-item">
+79
+                                        <a href="#">Sous catégorie 1</a>
+80
+                                    </li>
+81
+                                    <li class="dropdown-item">
+82
+                                        <a href="#">Sous catégorie 2</a>
+83
+                                    </li>
+84
+                                    <li class="dropdown-item">
+85
+                                        <a href="#">Sous catégorie 3</a>
+86
+                                    </li>
+87
+                                </ul>
+88
+                            </li>
+89
+						</ul>
+90
+					</li>
+91
+					<li class="nav-item">
+92
+						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+93
+					</li>
+94
+				</ul>
+95
+				<form class="form-inline my-2 my-lg-0">
+96
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+97
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+98
+				</form>
+99
+			</div>
+100
+		</nav>
+101
+
+102
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+103
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+104
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+105
+
+106
+        <script>
+107
+            window.onload = () => {
+108
+                let menus = document.querySelectorAll(".dropdown-submenu a.dropdown-toggle")
+109
+                for(let menu of menus){
+110
+                    menu.addEventListener("click", function(e){
+111
+                        e.stopPropagation()
+112
+                        e.preventDefault()
+113
+                        // On masque tous les UL de sous menus
+114
+                        let sousmenus = document.querySelectorAll(".multi .dropdown-menu")
+115
+                        for(let sousmenu of sousmenus){
+116
+                            sousmenu.style.display = "none"
+117
+                        }
+118
+                        this.nextElementSibling.style.display = "initial"
+119
+                    })
+120
+                }
+121
+            }
+122
+ 
+123
+        </script>
+124
+	</body>
+125
+</html>

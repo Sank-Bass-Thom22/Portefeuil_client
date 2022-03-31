@@ -1,0 +1,70 @@
+Gestion des entrees/sorties avec PDO, Mysql en PHP--------------------------------------------------
+Url     : http://codes-sources.commentcamarche.net/source/102517-gestion-des-entrees-sorties-avec-pdo-mysql-en-phpAuteur  : Ben_wiseDate    : 20/01/2020
+Licence :
+=========
+
+Ce document intitulé � Gestion des entrees/sorties avec PDO, Mysql en PHP � issu de CommentCaMarche
+(codes-sources.commentcamarche.net) est mis à disposition sous les termes de
+la licence Creative Commons. Vous pouvez copier, modifier des copies de cette
+source, dans les conditions fixées par la licence, tant que cette note
+apparaît clairement.
+
+Description :
+=============
+
+utilisation de javascript pour manupiler les différentes fenêtre et autres avec 
+la base de données mysql; PDO
+<br />tout se trouve dans le zip a vous de voir
+ vous même.
+<br />
+<br /><pre class="code" data-mode="php">&lt;form method='POST' action='index.php'&gt;
+    &lt;div id=&quot;centre&quot;
+&gt;
+        &lt;div id=&quot;creercat&quot;&gt;
+            &lt;h1&gt;Creer une
+ categorie&lt;/h1&gt;&lt;br&gt;
+                &lt;center&gt;
+                 
+   &lt;table&gt;
+                        &lt;tr&gt;
+                            
+&lt;td&gt;No Categorie&lt;/td&gt;
+                            &lt;td&gt;&lt;inpu
+t type=&quot;text&quot; name=&quot;NumCat&quot;&gt;&lt;/td&gt;
+                 
+       &lt;/tr&gt;
+                        &lt;tr&gt;
+                          
+  &lt;td&gt;Nom Categorie&lt;/td&gt;
+                            &lt;td&gt;&lt;i
+nput type=&quot;text&quot; name=&quot;NomCat&quot;&gt;&lt;/td&gt;
+              
+          &lt;/tr&gt;
+                    &lt;/table&gt;
+                    &lt
+;input type=&quot;submit&quot; value=&quot;Creer&quot;&gt;
+                &lt;/
+center&gt;
+            &lt;/div&gt;
+            &lt;?php
+    if(isset($_POST[&ap
+os;NumCat&apos;]) && isset($_POST[&apos;NomCat&apos;])){
+            $a=$_POST[&
+apos;NumCat&apos;];
+            $b=$_POST[&apos;NomCat&apos;];
+            if(!$
+con)
+                echo&quot;Connexion impossible&quot;;
+            else{
+   
+             $req=&quot;INSERT INTO categorie
+                                  
+ VALUE(&apos;$a&apos;,&apos;$b&apos;)&quot;;
+                $exe=$con-&gt;query
+($req);
+                                    echo&quot;La categorie $b a été aj
+outé&quot;;
+                    }
+            }
+?&gt;
+&lt;/form&gt;</pre>
